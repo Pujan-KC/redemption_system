@@ -4,10 +4,14 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { cartEntity } from "./cart.entity";
+import { OrderEntity } from "./order.entity";
 
-@Entity()
+@Entity({name:'user2'})
 export class User2 extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -33,6 +37,12 @@ export class User2 extends BaseEntity {
   @CreateDateColumn({name: "created_at"})
   createdAt!: Date;
 
+  @OneToOne(()=> cartEntity, cart => cart.user)
+  public cart:cartEntity
+
+  @OneToMany(() => OrderEntity, order=>order.user)
+  public orders: OrderEntity[]
+  
   // @Column()
   // points!: number;
 }
